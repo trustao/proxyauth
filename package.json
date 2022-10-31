@@ -1,0 +1,23 @@
+{
+  "name": "proxyauth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "proxyauth": "./bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "commander": "^8.3.0",
+    "http-proxy": "^1.18.1",
+    "inquirer": "^8.2.0",
+    "node-html-parser": "^5.1.0",
+    "puppeteer": "^19.2.0",
+    "set-cookie-parser": "^2.4.8"
+  },
+  "author": "",
+  "license": "ISC"
+}
