@@ -44,7 +44,7 @@ function runSwitchListen(subProcess) {
             subProcess && subProcess.stdout.resume();
             return _
         })
-        .then(type => type === 'r' ? switchPrompt() : refreshLoginPrompt())
+        .then(type => type === 'c' ? switchPrompt() : refreshLoginPrompt())
         .then(_ => runSwitchListen())
         .catch(err => console.error(err))
 }

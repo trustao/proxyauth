@@ -16,9 +16,7 @@ module.exports = {
         }
     },
     error(...args) {
-        if (isDebug()) {
-            console.log(...args)
-        }
+        console.error(...args)
     },
     warn(...args) {
         if (isDebug()) {

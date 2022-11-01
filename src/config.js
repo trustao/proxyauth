@@ -7,7 +7,7 @@ const defaultConfig = {
     proxyUrl: '',
     port: 5000,
     checkNeedLogin: '(res) => false',
-    submitSelector: 'form [name=submit]'
+    submitSelector: 'form [type=submit]'
 }
 
 module.exports = {

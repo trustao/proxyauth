@@ -22,7 +22,6 @@ async function openPage(url, browser, beforeLoad = async page => null) {
             }
             logger.info('Navigation Start')
             await page.goto(url, {waitUntil: "domcontentloaded"});
-            logger.info('Navigation Start')
             return {page, browser};
         } catch (e) {
             logger.error(e)
@@ -89,31 +88,31 @@ async function loginInPuppeteer(config) {
     const submitEl = await tryGetPuppeteerElement(page, config.submitSelector)
     if (!submitEl) {
         await browser.close();
-        console.error(config.submitSelector, '未找到')
+        logger.error(config.submitSelector, 'not found')
         return
     }
     await wait(1000);
 
-    console.log('Jump Success', page.url())
+    logger.log('Jump Success', page.url())
     for (let i = 0; i < config.input?.length || 0; i++) {
         const item = config.input[i];
         const el = await tryGetPuppeteerElement(page, item.selector, 10, 1000);
         if (!el) {
             await browser.close();
-            return console.error(item.selector, '未找到')
+            return logger.error(item.selector, 'not found')
         }
         await page.type(item.selector, item.value, {delay: 20});
     }
 
-    console.log('Click')
+    logger.log('Click button', config.submitSelector)
     await submitEl.click();
 
     await waitNav(page);
     await wait();
     if (!equalHost(page.url(), config.proxyUrl)) {
-        console.error('登陆失败')
+        logger.error('---------Login Failed---------')
     } else {
-        console.log('登陆成功')
+        logger.log('---------Login Success---------')
     }
     await browser.close();
 }
@@ -123,7 +122,7 @@ async function waitNav(page) {
     try {
         await page.waitForNavigation({timeout: 10000});
     } catch (e) {
-        console.error(e)
+        logger.error(e)
     }
 }
 

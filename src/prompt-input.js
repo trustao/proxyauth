@@ -25,7 +25,7 @@ const promptConfigs = [
     {
         type: 'input',
         name: 'submitSelector',
-        default: 'form [name=submit]',
+        default: 'form [type=submit]',
         message: '提交按钮选择器'
     }
 ]
@@ -94,7 +94,7 @@ async function getConfig(fileConfig = {}) {
                 i.value = old.value
             }
             return i
-        }) || []
+        }) || localConfig.input || []
     });
     local.saveDeveloperInfo(config);
     globalConfig.updateConfig(config);

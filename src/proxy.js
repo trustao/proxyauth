@@ -60,14 +60,14 @@ function createServer(auth, needAuth = res => res.statusCode === 302) {
         const config = globalConfig.getConfig();
         const url = config.proxyUrl + req.url;
         const cookie = cookieManager.getCookies(url);
-        console.log('ProxyReq', url, cookie);
+        console.log('[ProxyReq]', url);
         proxyReq.setHeader('cookie', utils.overwriteCookie(req.headers.cookie, cookie));
     });
 
     let tryCount = 0
     proxy.on('proxyRes', async function (proxyRes, req, res) {
         const config = globalConfig.getConfig();
-        console.log('ProxyRes', req.url, proxyRes.statusCode);
+        console.log('[ProxyRes]', req.url, proxyRes.statusCode);
         if (needAuth(proxyRes)) {
             if (tryCount < config.maxRetry) {
                 // console.log('ProxyRes', proxyRes.statusCode);
