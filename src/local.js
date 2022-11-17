@@ -21,7 +21,7 @@ function getAccessDir() {
 
 function hasAccess(path) {
     try {
-        fs.accessSync(path)
+        fs.accessSync(path, fs.constants.R_OK | fs.constants.W_OK)
         return true
     } catch (e) {
         return false
@@ -82,7 +82,7 @@ function getDeveloperInfo() {
         console.log('ReadFile', data);
         return JSON.parse(decipher(data, key));
     } catch (e) {
-        console.error(e)
+        // console.error(e)
     }
 }
 
