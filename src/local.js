@@ -3,17 +3,30 @@ const fs = require('fs')
 const path = require('path')
 const console = require('./logger');
 
-const dir = path.join(__dirname, '.store');
+const dir = getAccessDir();
 const key = createKey();
 const curPath = process.cwd();
 const fileName = md5(curPath);
-const hasDir = fs.existsSync(dir);
 
-if (!hasDir) {
-    fs.mkdirSync(dir)
-}
 const storeFilePath = path.join(dir, fileName + '.u');
 
+function getAccessDir() {
+    let dir = path.join(__dirname, '.store');
+    if (hasAccess(dir)) return dir
+    dir = path.join(process.cwd(), 'node_modules')
+    if (hasAccess(dir)) return dir
+    dir = path.join(process.cwd())
+    if (hasAccess(dir)) return dir
+}
+
+function hasAccess(path) {
+    try {
+        fs.accessSync(path)
+        return true
+    } catch (e) {
+        return false
+    }
+}
 console.log('[storeFilePath]', storeFilePath);
 console.log('[key]', key);
 function md5(str) {
@@ -28,6 +41,7 @@ function cipher(str, key){
         encrypted += cipher.final('hex');
         return encrypted;
     }catch(e){
+        console.error(e)
         // console.log('加密失败');
     }
 }
@@ -58,7 +72,7 @@ function saveDeveloperInfo(userinfo) {
         fs.writeFileSync(storeFilePath, cipher(JSON.stringify(userinfo), key))
         console.log('writeFileSync');
     } catch (e) {
-        // console.error(e)
+        console.error(e)
     }
 }
 
@@ -68,7 +82,7 @@ function getDeveloperInfo() {
         console.log('ReadFile', data);
         return JSON.parse(decipher(data, key));
     } catch (e) {
-        // console.error(e)
+        console.error(e)
     }
 }
 
