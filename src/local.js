@@ -12,7 +12,7 @@ const hasDir = fs.existsSync(dir);
 if (!hasDir) {
     fs.mkdirSync(dir)
 }
-const storeFilePath = path.join(dir, '.' + fileName);
+const storeFilePath = path.join(dir, fileName + '.u');
 
 console.log('[storeFilePath]', storeFilePath);
 console.log('[key]', key);

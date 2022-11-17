@@ -1,5 +1,5 @@
 .u
-.store
+*.u
 .proxyauth.cfg.json
 node_modules
 .idea/
