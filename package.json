@@ -1,13 +1,13 @@
 {
   "name": "proxyauth",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "bin": {
     "proxyauth": "./bin/index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "env NODE_ENV=development node index.js"
   },
   "dependencies": {
     "axios": "^0.24.0",

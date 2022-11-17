@@ -14,8 +14,13 @@ commander.initCommand(async (args, {options}) => {
 
     let fileConfig;
     if (options.config && exists(options.config)) {
-        console.log('读取配置', options.config)
-        fileConfig = require(options.config);
+        try {
+            console.log('读取配置', options.config)
+            fileConfig = require(options.config);
+        } catch (e) {
+            console.warn(e);
+        }
+
     }
     if (options.target) {
         fileConfig = {...fileConfig, proxyUrl: options.target}

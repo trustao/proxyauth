@@ -11,16 +11,12 @@ module.exports = {
         }
     },
     info(...args) {
-        if (isDebug()) {
-            console.info(...args)
-        }
+        console.info(...args)
     },
     error(...args) {
         console.error(...args)
     },
     warn(...args) {
-        if (isDebug()) {
-            console.warn(...args)
-        }
+        console.warn(...args)
     }
 }

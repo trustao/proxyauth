@@ -2,7 +2,7 @@
 
 const defaultConfig = {
     maxRetry: 3,
-    loggerLevel: 'debug',
+    loggerLevel: process.env.NODE_ENV === 'development' ? 'debug' : 'error',
     input: [],
     proxyUrl: '',
     port: 5000,

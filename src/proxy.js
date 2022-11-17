@@ -86,7 +86,7 @@ function createServer(auth, needAuth = res => res.statusCode === 302) {
     const port = config.port;
     const host = '0.0.0.0'
     server.listen(port, host);
-    console.log(`Proxy Server run at: http://${host}:${port}`)
+    console.info(`Proxy Server run at: http://${host}:${port}`)
     return server;
 }
 

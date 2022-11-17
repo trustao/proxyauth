@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 const globalConfig = require('./config');
 const local = require('./local');
+const console = require('./logger');
 const {loginInPuppeteer} = require("./puppeteer");
 
 
@@ -84,7 +85,9 @@ async function prompt(defaultConfig = {}) {
 }
 
 async function getConfig(fileConfig = {}) {
+    console.log('GET config', fileConfig);
     const localConfig = local.getDeveloperInfo() || {};
+    console.log('GET Local', localConfig);
     const config = await prompt({
         ...localConfig,
         ...fileConfig,

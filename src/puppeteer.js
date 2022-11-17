@@ -9,18 +9,18 @@ const puppeteerCfg = {headless: true, defaultViewport: {width: 1024, height: 800
 
 async function openPage(url, browser, beforeLoad = async page => null) {
     if (!browser) {
-        logger.info('Open Browser');
+        logger.log('Open Browser');
     }
     browser = browser || await puppeteer.launch(puppeteerCfg);
     try {
         const page = await browser.newPage();
-        logger.info('Open Page')
+        logger.log('Open Page')
         try {
             const loadInfo = typeof beforeLoad === 'function' && beforeLoad(page);
             if (loadInfo instanceof Promise) {
                 await loadInfo;
             }
-            logger.info('Navigation Start')
+            logger.log('Navigation Start')
             await page.goto(url, {waitUntil: "domcontentloaded"});
             return {page, browser};
         } catch (e) {
@@ -45,7 +45,7 @@ async function tryGetPuppeteerElement(parent, selector, stopRetry = 30, stepWait
             return;
         }
         const element = await parent.$(selector);
-        logger.info('GET Element', i, selector, element ? 'Success' : 'Failed');
+        logger.log('GET Element', i, selector, element ? 'Success' : 'Failed');
         if (element) {
             return element
         }
@@ -70,6 +70,7 @@ async function loginInPuppeteer(config) {
     if (!config.proxyUrl) {
         throw new Error('proxyUrl is not exist')
     }
+    console.info('[Open]', config.proxyUrl);
     const {browser, page} = await openPage(config.proxyUrl, null, async page => {
         await page.setRequestInterception(true); //开启请求拦截
         page.on('request', request => {
@@ -88,18 +89,18 @@ async function loginInPuppeteer(config) {
     const submitEl = await tryGetPuppeteerElement(page, config.submitSelector)
     if (!submitEl) {
         await browser.close();
-        logger.error(config.submitSelector, 'not found')
+        logger.error(config.submitSelector, 'submitSelector not found.')
         return
     }
     await wait(1000);
 
-    logger.log('Jump Success', page.url())
+    logger.info('Open Success:', page.url())
     for (let i = 0; i < config.input?.length || 0; i++) {
         const item = config.input[i];
         const el = await tryGetPuppeteerElement(page, item.selector, 10, 1000);
         if (!el) {
             await browser.close();
-            return logger.error(item.selector, 'not found')
+            return logger.error(item.selector, 'input selector not found.')
         }
         await page.type(item.selector, item.value, {delay: 20});
     }
@@ -112,7 +113,7 @@ async function loginInPuppeteer(config) {
     if (!equalHost(page.url(), config.proxyUrl)) {
         logger.error('---------Login Failed---------')
     } else {
-        logger.log('---------Login Success---------')
+        logger.info('---------Login Success---------')
     }
     await browser.close();
 }

@@ -32,7 +32,7 @@ module.exports = {
 }
 ```
 ### 指令
-* `proxyauth rd` 清除本地保存的开发者信息
+* `proxyauth clear` 清除本地保存的开发者信息
 * `proxyauth -p <port>` 指定端口
 * `proxyauth -t <url>` 更新代理URL
 * `proxyauth -d` 清除本地保存的配置

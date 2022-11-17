@@ -12,7 +12,7 @@ function initCommand(run) {
         .option('-c, --config <file path>', '配置文件地址', path.join(process.cwd(), '.proxyauth.cfg.json'));
 
     program
-        .command('rd')
+        .command('clear')
         .description('删除本地开发者信息')
         .action(s => {
             localInfo.remove();

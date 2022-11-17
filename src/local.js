@@ -1,10 +1,21 @@
 const crypto = require('crypto')
 const fs = require('fs')
 const path = require('path')
+const console = require('./logger');
 
+const dir = path.join(__dirname, '.store');
 const key = createKey();
-const storeFilePath = path.join(__dirname, '.u')
+const curPath = process.cwd();
+const fileName = md5(curPath);
+const hasDir = fs.existsSync(dir);
 
+if (!hasDir) {
+    fs.mkdirSync(dir)
+}
+const storeFilePath = path.join(dir, '.' + fileName);
+
+console.log('[storeFilePath]', storeFilePath);
+console.log('[key]', key);
 function md5(str) {
    return crypto.createHash('md5').update(str).digest('hex');
 }
@@ -45,6 +56,7 @@ function createKey() {
 function saveDeveloperInfo(userinfo) {
     try {
         fs.writeFileSync(storeFilePath, cipher(JSON.stringify(userinfo), key))
+        console.log('writeFileSync');
     } catch (e) {
         // console.error(e)
     }
@@ -53,6 +65,7 @@ function saveDeveloperInfo(userinfo) {
 function getDeveloperInfo() {
     try {
         const data = fs.readFileSync(storeFilePath, 'utf-8');
+        console.log('ReadFile', data);
         return JSON.parse(decipher(data, key));
     } catch (e) {
         // console.error(e)
