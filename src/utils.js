@@ -34,6 +34,15 @@ function exists(path) {
     }
 }
 
+function readConfig(path) {
+    try {
+        return JSON.parse(fs.readFileSync(path, {encoding: 'utf8'}))
+    } catch (e) {
+        console.warn(e)
+        return {};
+    }
+}
+
 function equalHost(urlA, urlB) {
     try {
         return urlA && urlB && url.parse(urlA).host === url.parse(urlB).host;
@@ -47,5 +56,6 @@ module.exports = {
     runFunc,
     wait,
     equalHost,
-    exists
+    exists,
+    readConfig
 }

@@ -70,8 +70,9 @@ async function loginInPuppeteer(config) {
     if (!config.proxyUrl) {
         throw new Error('proxyUrl is not exist')
     }
-    console.info('[Open]', config.proxyUrl);
-    const {browser, page} = await openPage(config.proxyUrl, null, async page => {
+    const pageUrl = config.visitUrl || config.proxyUrl;
+    console.info('[Open]', pageUrl);
+    const {browser, page} = await openPage(pageUrl, null, async page => {
         await page.setRequestInterception(true); //开启请求拦截
         page.on('request', request => {
             return request.continue();
@@ -110,7 +111,7 @@ async function loginInPuppeteer(config) {
 
     await waitNav(page);
     await wait();
-    if (!equalHost(page.url(), config.proxyUrl)) {
+    if (!equalHost(page.url(), pageUrl)) {
         logger.error('---------Login Failed---------')
     } else {
         logger.info('---------Login Success---------')

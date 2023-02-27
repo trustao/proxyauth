@@ -3,7 +3,7 @@ const prompts = require('./src/prompt-input');
 const globalConfig = require('./src/config');
 const createServer = require('./src/proxy');
 const console = require('./src/logger')
-const {exists} = require("./src/utils");
+const {exists, readConfig} = require("./src/utils");
 const {loginInPuppeteer} = require("./src/puppeteer");
 const {runSwitch} = require("./src/switch");
 
@@ -16,7 +16,7 @@ commander.initCommand(async (args, {options}) => {
     if (options.config && exists(options.config)) {
         try {
             console.log('读取配置', options.config)
-            fileConfig = require(options.config);
+            fileConfig = readConfig(options.config);
         } catch (e) {
             console.warn(e);
         }
